@@ -39,4 +39,6 @@ Convert all .raw files in MS_files folder to centroid non-zlib compressed mzXML 
 nextflow run main.nf -raw_folder MS_files -conv_params "-c -n"
 ```
 
-At the end of the workflow the converted files will be found in the Results/Mzxml/ folder
+At the end of the workflow the converted files will be found in the *Results/Mzxml/* folder.
+
+By default the converted files will be owned by the user starting the workflow. If needed a different UID and GID can be specified in *nextflow.config* by passing them as LOCAL_USER_ID and LOCAL_GROUP_ID via *runOptions*.
