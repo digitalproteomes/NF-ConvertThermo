@@ -1,6 +1,3 @@
-params.raw_folder = 'Data/'
-params.conv_params = ''
-
 rawFiles = file(params.raw_folder + '/*.raw')
 
 process convertThermo {
