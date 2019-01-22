@@ -1,3 +1,18 @@
+if(params.help) {
+    log.info""
+    log.info"Thermo RAW to mzXML workflow"
+    log.info"----------------------------"
+    log.info""
+    log.info"Options:"
+    log.info "  --help:         show this message and exit"
+    log.info "  --raw_folder:   the folder with the RAW files (default: Data)"
+    log.info "  --conv_params:  conversion parameters for ReAdW"
+    log.info ""
+    log.info "Results will be in Results/Mzxml/"
+    log.info ""
+    exit 1
+}
+
 rawFiles = file(params.raw_folder + '/*.raw')
 
 process convertThermo {
