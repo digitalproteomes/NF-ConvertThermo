@@ -16,7 +16,7 @@ if(params.help) {
 rawFiles = file(params.raw_folder + '/*.raw')
 
 process convertThermo {
-    publishDir 'Results/Mzxml'
+    publishDir 'Results/Mzxml', mode: 'link'
 
     input:
     file raw from rawFiles
