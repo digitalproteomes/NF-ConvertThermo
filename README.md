@@ -36,7 +36,7 @@ nextflow run digitalproteomes/NF-ConvertThermo
 
 Convert all .raw files in MS_files folder to centroid non-zlib compressed mzXML files:
 ```bash
-nextflow run digitalproteomes/NF-ConvertThermo --raw_folder MS_files --conv_params "-c -n"
+nextflow run digitalproteomes/NF-ConvertThermo --raw_folder MS_files --conv_params='-c -n'
 ```
 
 At the end of the workflow the converted files will be found in the *Results/Mzxml/* folder.
