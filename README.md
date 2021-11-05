@@ -4,7 +4,7 @@ This workflow converts all .raw files in a folder to mzXML using a dockerized ve
 
 ## Usage
 **IMPORTANT**
-The docker container this workflow depends on cannot be pushed to dockerhub due to licensing terms of DLLs it contains.
+The docker container this workflow depends on DLLS that cannot be pushed to dockerhub due to licensing terms.
 Please make sure to build a local copy of the container according to the instructions in [this](https://github.com/PedrioliLab/docker-readw) repository before attempting to run the workflow.
 
 The workflow takes two parameters:
