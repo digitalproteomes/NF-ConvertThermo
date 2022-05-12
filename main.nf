@@ -1,30 +1,17 @@
-if(params.help) {
-    log.info""
-    log.info"Thermo RAW to mzXML workflow"
-    log.info"----------------------------"
-    log.info""
-    log.info"Options:"
-    log.info "  --help:         show this message and exit"
-    log.info "  --raw_folder:   the folder with the RAW files (default: $params.raw_folder)"
-    log.info "  --conv_params:  conversion parameters for ReAdW (default: $params.conv_params)"
-    log.info ""
-    log.info "Results will be in Results/Mzxml/"
-    log.info ""
-    exit 1
+nextflow.enable.dsl=2
+
+include {convertThermo} from './convertThermo_workflows.nf'
+
+workflow {
+    main:
+    log.info("++++++++++========================================")
+    log.info("Executing ConvertThermo workflow")
+    log.info("")
+    log.info("Parameters:")
+    log.info(" RAW folder:\t $params.raw_folder")
+    log.info(" Conversion parameters:\t $params.conv_params")
+    log.info("++++++++++========================================")
+
+    convertThermo(params.raw_folder,
+		  params.conv_params)
 }
-
-rawFiles = file(params.raw_folder + '/*.raw')
-
-process convertThermo {
-    publishDir 'Results/Mzxml', mode: 'link'
-
-    input:
-    file raw from rawFiles
-
-    output:
-    file '*.mzXML'
-
-    script:
-    "wine /usr/local/bin/ReAdW.exe ${params.conv_params} $raw"
-}
-
