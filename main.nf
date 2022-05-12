@@ -1,6 +1,6 @@
 nextflow.enable.dsl=2
 
-include {convertThermo} from './convertThermo_workflows.nf'
+include {convert} from './convertThermo_workflows.nf'
 
 workflow {
     main:
@@ -12,6 +12,6 @@ workflow {
     log.info(" Conversion parameters:\t $params.conv_params")
     log.info("++++++++++========================================")
 
-    convertThermo(params.raw_folder,
-		  params.conv_params)
+    convert(params.raw_folder,
+	    params.conv_params)
 }

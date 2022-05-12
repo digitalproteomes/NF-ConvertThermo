@@ -6,13 +6,13 @@
 include {convertThermo} from './convertThermo_processes.nf'
 
 
-workflow convertThermo{
+workflow convert{
     take:
     raw_folder
     conv_params
 
     main:
     rawFiles = channel.fromPath("${raw_folder}/*.raw")
-    convertThermo(rawFiles,
-		  conv_params)
+    convert(rawFiles,
+	    conv_params)
 }
