@@ -13,6 +13,6 @@ workflow convert{
 
     main:
     rawFiles = channel.fromPath("${raw_folder}/*.raw")
-    convert(rawFiles,
-	    conv_params)
+    convertThermo(rawFiles,
+	  	  conv_params)
 }
