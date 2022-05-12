@@ -1,12 +1,15 @@
 process convertThermo {
+    tag "$raw"
+    
     publishDir 'Results/Mzxml', mode: 'link'
 
     input:
-    file raw from rawFiles
+    file raw
+    val conv_params
 
     output:
     file '*.mzXML'
 
     script:
-    "wine /usr/local/bin/ReAdW.exe ${params.conv_params} $raw"
+    "wine /usr/local/bin/ReAdW.exe ${conv_params} $raw"
 }
