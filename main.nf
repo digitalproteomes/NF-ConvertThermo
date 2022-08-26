@@ -13,5 +13,6 @@ workflow {
     log.info("++++++++++========================================")
 
     convert(params.raw_folder,
-	    params.conv_params)
+	    params.conv_params,
+	    params.monitor)
 }
