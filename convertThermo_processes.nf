@@ -33,7 +33,7 @@ process patchWineprefixP {
     ORIGINAL_PREFIX=\${WINEPREFIX}
     WINEPREFIX=\$(mktemp -d /tmp/wineprefixXXXX)
     export WINEPREFIX
-    cp -r /wineprefix64/* \$WINEPREFIX
+    cp -r \$ORIGINAL_PREFIX \$WINEPREFIX
     echo \$WINEPREFIX > wineprefix.txt
     """
 }
