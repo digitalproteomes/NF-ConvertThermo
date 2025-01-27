@@ -17,11 +17,27 @@ process convertThermo {
 }
 
 
+process convertMzxmlP {
+    tag "$mzxml"
+    publishDir 'Results/MzML', mode: 'link'
+
+    input:
+    file mzxml
+    val conv_params_msconvert
+
+    output:
+    file '*.mzML'
+
+    script:
+    "wine /usr/local/pwiz/msconvert ${conv_params_msconvert} $mzxml"
+}
+
+
 process patchWineprefixP {
     // This process creates a copy of wineprefix from the container to /tmp
     // The copied files will be owned by the user running the analysis, hence
     // removing  wine mismatched ownership issues.
-    publishDir 'Results/MzML', mode: 'link'
+    publishDir 'Results/Mzxml', mode: 'link'
     
     input:
 

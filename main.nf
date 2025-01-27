@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
 include {convert;
+	 convertMzxmlW;
 	 patchWineprefixW;
 	 cleanPatchWineprefixW} from './convertThermo_workflows.nf'
 
@@ -17,6 +18,11 @@ workflow {
     convert(params.raw_folder,
 	    params.conv_params,
 	    params.monitor)
+
+    if(params.mzml) {
+	convertMzxmlW(convert.out.mzxml,
+		      params.conv_params_msconvert)
+    }
 }
 
 

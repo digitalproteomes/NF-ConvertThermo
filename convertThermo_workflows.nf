@@ -4,6 +4,7 @@
 
 
 include {convertThermo;
+	 convertMzxmlP;
 	 patchWineprefixP;
 	 cleanPatchWineprefixP} from './convertThermo_processes.nf'
 
@@ -22,8 +23,22 @@ workflow convert{
 	rawFiles = channel.fromPath("${raw_folder}/*.raw")
     }
 
-    convertThermo(rawFiles,
-	  	  conv_params)
+    mzxml = convertThermo(rawFiles,
+	  		  conv_params)
+
+    emit:
+    mzxml
+}
+
+
+workflow convertMzxmlW{
+    take:
+    mzxml
+    conv_params_msconvert
+
+    main:
+    convertMzxmlP(mzxml,
+		  conv_params_msconvert)
 }
 
 
