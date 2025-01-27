@@ -29,7 +29,7 @@ process convertMzxmlP {
     file '*.mzML'
 
     script:
-    "wine /usr/local/pwiz/msconvert ${conv_params_msconvert} $mzxml"
+    "/usr/local/pwiz/msconvert ${conv_params_msconvert} $mzxml"
 }
 
 
