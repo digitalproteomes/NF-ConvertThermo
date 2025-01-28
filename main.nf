@@ -38,7 +38,7 @@ workflow wineprefix {
 
 workflow cleanWineprefix {
     main:
-    wine_folder = file('Results/MzML/wineprefix.txt').text.readLines()[0]
+    wine_folder = file('Results/Mzxml/wineprefix.txt').text.readLines()[0]
     
     log.info("++++++++++========================================")
     log.info("Removing wineprefix copy at:\t $wine_folder")
