@@ -4,7 +4,9 @@
 
 
 include {convertThermo;
+	 convertThermoAndLink;
 	 convertMzxmlP;
+	 convertMzxmlAndLinkP;
 	 patchWineprefixP;
 	 cleanPatchWineprefixP} from './convertThermo_processes.nf'
 
@@ -14,6 +16,7 @@ workflow convert{
     raw_folder
     conv_params
     monitor
+    link_files
 
     main:
     if(monitor) {
@@ -23,8 +26,14 @@ workflow convert{
 	rawFiles = channel.fromPath("${raw_folder}/*.raw")
     }
 
-    mzxml = convertThermo(rawFiles,
-	  		  conv_params)
+    if(link_files) {
+	mzxml = convertThermoAndLink(rawFiles,
+	  			     conv_params)
+    }
+    else {
+	mzxml = convertThermo(rawFiles,
+	  		      conv_params)
+    }
 
     emit:
     mzxml
@@ -35,10 +44,17 @@ workflow convertMzxmlW{
     take:
     mzxml
     conv_params_msconvert
+    link_files
 
     main:
-    convertMzxmlP(mzxml,
-		  conv_params_msconvert)
+    if(link_files) {
+	convertMzxmlAndLinkP(mzxml,
+			     conv_params_msconvert)
+    }
+    else {
+	convertMzxmlP(mzxml,
+		      conv_params_msconvert)
+    }
 }
 
 

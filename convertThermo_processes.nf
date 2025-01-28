@@ -2,6 +2,23 @@ process convertThermo {
     tag "$raw"
     publishDir 'Results/Mzxml', mode: 'link'
 
+    input:
+    file raw
+    val conv_params
+
+
+    output:
+    file '*.mzXML'
+
+    script:
+    "wine /usr/local/bin/ReAdW.exe ${conv_params} $raw"
+}
+
+
+process convertThermoAndLink {
+    tag "$raw"
+    publishDir 'Results/Mzxml', mode: 'link'
+
     afterScript "source ${projectDir}/bin/after_conversion.sh"
 
     input:
@@ -21,6 +38,24 @@ process convertMzxmlP {
     tag "$mzxml"
     publishDir 'Results/MzML', mode: 'link'
 
+    input:
+    file mzxml
+    val conv_params_msconvert
+
+    output:
+    file '*.mzML'
+
+    script:
+    "/usr/local/pwiz/msconvert ${conv_params_msconvert} $mzxml"
+}
+
+
+process convertMzxmlAndLinkP {
+    tag "$mzxml"
+    publishDir 'Results/MzML', mode: 'link'
+
+    afterScript "source ${projectDir}/bin/after_conversion.sh"
+    
     input:
     file mzxml
     val conv_params_msconvert
