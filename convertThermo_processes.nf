@@ -1,6 +1,8 @@
 process convertThermo {
     tag "$raw"
     publishDir 'Results/Mzxml', mode: 'link'
+    errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    maxRetries 5
 
     input:
     file raw
