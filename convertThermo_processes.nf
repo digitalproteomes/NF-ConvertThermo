@@ -13,7 +13,10 @@ process convertThermo {
     file '*.mzXML'
 
     script:
-    "wine /usr/local/bin/ReAdW.exe ${conv_params} $raw"
+    """
+    unset DISPLAY
+    wine /usr/local/bin/ReAdW.exe ${conv_params} $raw
+    """
 }
 
 
@@ -34,7 +37,10 @@ process convertThermoAndLink {
     file '*.mzXML'
 
     script:
-    "wine /usr/local/bin/ReAdW.exe ${conv_params} $raw"
+    """
+    unset DISPLAY
+    wine /usr/local/bin/ReAdW.exe ${conv_params} $raw
+    """
 }
 
 
