@@ -20,6 +20,8 @@ process convertThermo {
 process convertThermoAndLink {
     tag "$raw"
     publishDir 'Results/Mzxml', mode: 'link'
+    errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    maxRetries 5
 
     afterScript "source ${projectDir}/bin/after_conversion.sh"
 
@@ -39,6 +41,8 @@ process convertThermoAndLink {
 process convertMzxmlP {
     tag "$mzxml"
     publishDir 'Results/MzML', mode: 'link'
+    errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    maxRetries 5
 
     input:
     file mzxml
@@ -48,13 +52,18 @@ process convertMzxmlP {
     file '*.mzML'
 
     script:
-    "/usr/local/pwiz/msconvert ${conv_params_msconvert} $mzxml"
+    """
+    unset DISPLAY
+    /usr/local/pwiz/msconvert ${conv_params_msconvert} $mzxml
+    """
 }
 
 
 process convertMzxmlAndLinkP {
     tag "$mzxml"
     publishDir 'Results/MzML', mode: 'link'
+    errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    maxRetries 5
 
     afterScript "source ${projectDir}/bin/after_conversion.sh"
     
@@ -66,7 +75,10 @@ process convertMzxmlAndLinkP {
     file '*.mzML'
 
     script:
-    "/usr/local/pwiz/msconvert ${conv_params_msconvert} $mzxml"
+    """
+    unset DISPLAY
+    /usr/local/pwiz/msconvert ${conv_params_msconvert} $mzxml
+    """
 }
 
 
