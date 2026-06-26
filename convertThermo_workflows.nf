@@ -26,15 +26,6 @@ workflow convert{
 	rawFiles = channel.fromPath("${raw_folder}/*.raw")
     }
 
-    if(link_files) {
-	mzxml = convertThermoAndLink(rawFiles,
-	  			     conv_params)
-    }
-    else {
-	mzxml = convertThermo(rawFiles,
-	  		      conv_params)
-    }
-
     emit:
     link_files ? convertThermoAndLink(rawFiles, conv_params) : convertThermo(rawFiles, conv_params)
 }
