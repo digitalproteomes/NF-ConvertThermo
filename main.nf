@@ -28,7 +28,7 @@ workflow {
 	    params.link_files)
 
     if(params.mzml) {
-	convertMzxmlW(convert.out.mzxml,
+	convertMzxmlW(convert.out,
 		      params.conv_params_msconvert,
 		      params.link_files)
     }
