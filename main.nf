@@ -22,15 +22,10 @@ workflow {
     }
     log.info("++++++++++========================================")
 
-    convert(params.raw_folder,
-	    params.conv_params,
-	    params.monitor,
-	    params.link_files)
-
+    convert(params.raw_folder)
+    
     if(params.mzml) {
-	convertMzxmlW(convert.out,
-		      params.conv_params_msconvert,
-		      params.link_files)
+	convertMzxmlW(convert.out)
     }
 }
 
