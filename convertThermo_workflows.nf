@@ -34,6 +34,9 @@ workflow convert{
 	mzxml = convertThermo(rawFiles,
 	  		      conv_params)
     }
+
+    emit:
+    link_files ? convertThermoAndLink(rawFiles, conv_params) : convertThermo(rawFiles, conv_params)
 }
 
 
