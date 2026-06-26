@@ -34,9 +34,6 @@ workflow convert{
 	mzxml = convertThermo(rawFiles,
 	  		      conv_params)
     }
-
-    emit:
-    mzxml
 }
 
 
@@ -59,7 +56,6 @@ workflow convertMzxmlW{
 
 
 workflow patchWineprefixW {
-    take:
 
     main:
     patchWineprefixP()

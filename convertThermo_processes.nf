@@ -26,7 +26,7 @@ process convertThermoAndLink {
     errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     maxRetries 5
 
-    afterScript "source ${projectDir}/bin/after_conversion.sh"
+    afterScript "source after_conversion.sh"
 
     input:
     file raw
@@ -71,7 +71,7 @@ process convertMzxmlAndLinkP {
     errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     maxRetries 5
 
-    afterScript "source ${projectDir}/bin/after_conversion.sh"
+    afterScript "source after_conversion.sh"
     
     input:
     file mzxml
@@ -94,8 +94,6 @@ process patchWineprefixP {
     // removing  wine mismatched ownership issues.
     publishDir 'Results/Mzxml', mode: 'link'
     
-    input:
-
     output:
     file 'wineprefix.txt'
 
@@ -113,8 +111,6 @@ process patchWineprefixP {
 process cleanPatchWineprefixP {
     input:
     val wineCopyFolder
-
-    output:
 
     script:
     """
