@@ -5,12 +5,6 @@ include {convert;
 	 patchWineprefixW;
 	 cleanPatchWineprefixW} from './convertThermo_workflows.nf'
 
-// Import the validation function from the schema plugin
-include { validateParameters } from 'plugin/nf-schema'
-
-// Validate and implicitly cast CLI string parameters to their correct types
-validateParameters()
-
 workflow {
     main:
     log.info("++++++++++========================================")
