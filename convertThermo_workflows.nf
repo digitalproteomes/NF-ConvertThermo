@@ -14,9 +14,12 @@ include {convertThermo;
 workflow convert{
     take:
     raw_folder
+    conv_params
+    monitor
+    link_files
 
     main:
-    if(params.monitor.toBoolean()) {
+    if(monitor) {
 	rawFiles = channel.watchPath("${raw_folder}/*.raw")
     }
     else {
@@ -24,22 +27,24 @@ workflow convert{
     }
 
     emit:
-    params.link_files ? convertThermoAndLink(rawFiles, params.conv_params) : convertThermo(rawFiles, params.conv_params)
+    link_files ? convertThermoAndLink(rawFiles, conv_params) : convertThermo(rawFiles, conv_params)
 }
 
 
 workflow convertMzxmlW{
     take:
     mzxml
+    conv_params_msconvert
+    link_files
 
     main:
-    if(params.link_files.toBoolean()) {
+    if(link_files) {
 	convertMzxmlAndLinkP(mzxml,
-			     params.conv_params_msconvert)
+			     conv_params_msconvert)
     }
     else {
 	convertMzxmlP(mzxml,
-		      params.conv_params_msconvert)
+		      conv_params_msconvert)
     }
 }
 

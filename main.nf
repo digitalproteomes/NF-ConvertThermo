@@ -5,6 +5,12 @@ include {convert;
 	 patchWineprefixW;
 	 cleanPatchWineprefixW} from './convertThermo_workflows.nf'
 
+// Import the validation function from the schema plugin
+include { validateParameters } from 'plugin/nf-schema'
+
+// Validate and implicitly cast CLI string parameters to their correct types
+validateParameters()
+
 workflow {
     main:
     log.info("++++++++++========================================")
@@ -18,10 +24,17 @@ workflow {
     log.info(" Linking converted files to original RAW file location:\t ${params.link_files.toBoolean() ? 'true' : 'false'}")
     log.info("++++++++++========================================")
 
-    convert(params.raw_folder)
+    convert(params.raw_folder,
+	    params.conv_params,
+	    params.monitor.toBoolean(),
+	    params.link_files.toBoolean()
+    )
     
-    if(params.mzml.toBoolean()) {
-	convertMzxmlW(convert.out)
+    if(params.mzml) {
+	convertMzxmlW(convert.out,
+		      params.conv_params_msconvert,
+		      params.link_files.toBoolean()
+	)
     }
 }
 
