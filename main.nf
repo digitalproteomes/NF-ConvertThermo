@@ -15,7 +15,7 @@ workflow {
     log.info(" MzXML conversion parameters:\t $params.conv_params")
     log.info(" Monitor mode:\t ${params.monitor.toBoolean() ? 'true' : 'false'}")
     log.info(" Converting to MzML:\t ${params.mzml.toBoolean() ? 'true' : 'false'}")
-    log.info(" Linking converted files to original RAW file location:\t ${params.linkfiles.toBoolean() ? 'true' : 'false'}")
+    log.info(" Linking converted files to original RAW file location:\t ${params.link_files.toBoolean() ? 'true' : 'false'}")
     log.info("++++++++++========================================")
 
     convert(params.raw_folder)
