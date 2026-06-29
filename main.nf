@@ -13,18 +13,18 @@ workflow {
     log.info("Parameters:")
     log.info(" RAW folder:\t $params.raw_folder")
     log.info(" MzXML conversion parameters:\t $params.conv_params")
-    if(params.mzml) {
+    if(params.mzml.toBoolean()) {
 	log.info(" Will convert to MzML")
 	log.info(" MzML conversion parameters:\t $params.conv_params_msconvert")
     }
-    if(params.link_files) {
+    if(params.link_files.toBoolean()) {
 	log.info(" Linking converted files to original RAW file location.")
     }
     log.info("++++++++++========================================")
 
     convert(params.raw_folder)
     
-    if(params.mzml) {
+    if(params.mzml.toBoolean()) {
 	convertMzxmlW(convert.out)
     }
 }

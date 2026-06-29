@@ -16,7 +16,7 @@ workflow convert{
     raw_folder
 
     main:
-    if(params.monitor) {
+    if(params.monitor.toBoolean()) {
 	rawFiles = channel.watchPath("${raw_folder}/*.raw")
     }
     else {
@@ -33,7 +33,7 @@ workflow convertMzxmlW{
     mzxml
 
     main:
-    if(params.link_files) {
+    if(params.link_files.toBoolean()) {
 	convertMzxmlAndLinkP(mzxml,
 			     params.conv_params_msconvert)
     }
