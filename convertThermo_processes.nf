@@ -1,6 +1,5 @@
 process convertThermo {
     tag "$raw"
-    publishDir 'Results/Mzxml', mode: 'link'
     errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     maxRetries 5
 
@@ -22,7 +21,6 @@ process convertThermo {
 
 process convertThermoAndLink {
     tag "$raw"
-    publishDir 'Results/Mzxml', mode: 'link'
     errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     maxRetries 5
 
@@ -46,7 +44,6 @@ process convertThermoAndLink {
 
 process convertMzxmlP {
     tag "$mzxml"
-    publishDir 'Results/MzML', mode: 'link'
     errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     maxRetries 5
 
@@ -67,7 +64,6 @@ process convertMzxmlP {
 
 process convertMzxmlAndLinkP {
     tag "$mzxml"
-    publishDir 'Results/MzML', mode: 'link'
     errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     maxRetries 5
 
@@ -92,7 +88,6 @@ process patchWineprefixP {
     // This process creates a copy of wineprefix from the container to /tmp
     // The copied files will be owned by the user running the analysis, hence
     // removing  wine mismatched ownership issues.
-    publishDir 'Results/Mzxml', mode: 'link'
     
     output:
     file 'wineprefix.txt'
