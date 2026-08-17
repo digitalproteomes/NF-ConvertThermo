@@ -39,13 +39,15 @@ workflow convertMzxmlW{
 
     main:
     if(link_files) {
-	convertMzxmlAndLinkP(mzxml,
+	out_ch = convertMzxmlAndLinkP(mzxml,
 			     conv_params_msconvert)
     }
     else {
-	convertMzxmlP(mzxml,
+	out_ch = convertMzxmlP(mzxml,
 		      conv_params_msconvert)
     }
+    emit:
+    out = out_ch
 }
 
 
