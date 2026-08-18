@@ -112,3 +112,44 @@ process cleanPatchWineprefixP {
     rm -rf '$wineCopyFolder'
     """
 }
+
+process waitForStableRaw {
+    tag "${raw}"
+
+    input:
+    val raw
+
+    output:
+    path 'stable.raw'
+
+    script:
+    """
+    set -euo pipefail
+
+    target='${raw}'
+    previous=''
+    stable_count=0
+
+    while [ \$stable_count -lt 3 ]; do
+        if [ ! -f "\$target" ]; then
+            stable_count=0
+            previous=''
+            sleep 10
+            continue
+        fi
+
+        current=\$(stat -c '%s %Y' "\$target")
+
+        if [ "\$current" = "\$previous" ]; then
+            stable_count=\$((stable_count + 1))
+        else
+            stable_count=0
+            previous="\$current"
+        fi
+
+        sleep 10
+    done
+
+    cp -- "\$target" stable.raw
+    """
+}

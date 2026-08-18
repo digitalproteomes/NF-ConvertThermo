@@ -8,7 +8,8 @@ include {convertThermo;
 	 convertMzxmlP;
 	 convertMzxmlAndLinkP;
 	 patchWineprefixP;
-	 cleanPatchWineprefixP} from './convertThermo_processes.nf'
+	 cleanPatchWineprefixP;
+	 waitForStableRaw} from './convertThermo_processes.nf'
 
 
 workflow convert{
@@ -21,14 +22,18 @@ workflow convert{
     main:
     if(monitor) {
 	rawFiles = channel.watchPath("${raw_folder}/*.raw")
+	// When monitoring we should make sure that a file has
+	// finished writing before starting conversion
+	filesForConversion = waitForStableRaw(rawFiles)
     }
     else {
 	rawFiles = channel.fromPath("${raw_folder}/*.raw")
+	filesForConversion = rawFiles
     }
-
+    
     emit:
     raw_files = rawFiles
-    conv_out = link_files ? convertThermoAndLink(rawFiles, conv_params) : convertThermo(rawFiles, conv_params)
+    conv_out = link_files ? convertThermoAndLink(filesForConversion, conv_params) : convertThermo(filesForConversion, conv_params)
 }
 
 
