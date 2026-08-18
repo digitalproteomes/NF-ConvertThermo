@@ -117,10 +117,11 @@ process waitForStableRaw {
     tag "${raw}"
 
     input:
-    val raw
+    file raw
 
     output:
-    path 'stable.raw'
+    file raw
+    
 
     script:
     """
@@ -131,14 +132,7 @@ process waitForStableRaw {
     stable_count=0
 
     while [ \$stable_count -lt 3 ]; do
-        if [ ! -f "\$target" ]; then
-            stable_count=0
-            previous=''
-            sleep 10
-            continue
-        fi
-
-        current=\$(stat -c '%s %Y' "\$target")
+        current=\$(stat -L -c '%s %Y' "\$target")
 
         if [ "\$current" = "\$previous" ]; then
             stable_count=\$((stable_count + 1))
@@ -149,7 +143,6 @@ process waitForStableRaw {
 
         sleep 10
     done
-
-    cp -- "\$target" stable.raw
     """
 }
+
