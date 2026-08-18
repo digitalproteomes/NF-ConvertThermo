@@ -27,7 +27,8 @@ workflow convert{
     }
 
     emit:
-    link_files ? convertThermoAndLink(rawFiles, conv_params) : convertThermo(rawFiles, conv_params)
+    raw_files = rawFiles
+    conv_out = link_files ? convertThermoAndLink(rawFiles, conv_params) : convertThermo(rawFiles, conv_params)
 }
 
 
