@@ -1,6 +1,6 @@
 process convertThermo {
     tag "$raw"
-    errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    errorStrategy { task.attempt <= 5 ? 'retry' : 'ignore' }
     maxRetries 5
 
     input:
@@ -21,7 +21,7 @@ process convertThermo {
 
 process convertThermoAndLink {
     tag "$raw"
-    errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    errorStrategy { task.attempt <= 5 ? 'retry' : 'ignore' }
     maxRetries 5
 
     afterScript "source after_conversion.sh"
@@ -44,7 +44,7 @@ process convertThermoAndLink {
 
 process convertMzxmlP {
     tag "$mzxml"
-    errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    errorStrategy { task.attempt <= 5 ? 'retry' : 'ignore' }
     maxRetries 5
 
     input:
@@ -64,11 +64,11 @@ process convertMzxmlP {
 
 process convertMzxmlAndLinkP {
     tag "$mzxml"
-    errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    errorStrategy { task.attempt <= 5 ? 'retry' : 'ignore' }
     maxRetries 5
 
     afterScript "source after_conversion.sh"
-    
+
     input:
     file mzxml
     val conv_params_msconvert
@@ -88,7 +88,7 @@ process patchWineprefixP {
     // This process creates a copy of wineprefix from the container to /tmp
     // The copied files will be owned by the user running the analysis, hence
     // removing  wine mismatched ownership issues.
-    
+
     output:
     file 'wineprefix.txt'
 
@@ -121,7 +121,7 @@ process waitForStableRaw {
 
     output:
     file raw
-    
+
 
     script:
     """
@@ -130,8 +130,11 @@ process waitForStableRaw {
     target='${raw}'
     previous=''
     stable_count=0
+    elapsed=0
+    max_wait=7200
 
     while [ \$stable_count -lt 3 ]; do
+        [ \$elapsed -ge \$max_wait ] && { echo "timeout waiting for \$target" >&2; exit 1; }
         current=\$(stat -L -c '%s %Y' "\$target")
 
         if [ "\$current" = "\$previous" ]; then
@@ -142,7 +145,7 @@ process waitForStableRaw {
         fi
 
         sleep 10
+        elapsed=\$((elapsed + 10))
     done
     """
 }
-

@@ -4,12 +4,12 @@
 
 
 include {convertThermo;
-	 convertThermoAndLink;
-	 convertMzxmlP;
-	 convertMzxmlAndLinkP;
-	 patchWineprefixP;
-	 cleanPatchWineprefixP;
-	 waitForStableRaw} from './convertThermo_processes.nf'
+     convertThermoAndLink;
+     convertMzxmlP;
+     convertMzxmlAndLinkP;
+     patchWineprefixP;
+     cleanPatchWineprefixP;
+     waitForStableRaw} from './convertThermo_processes.nf'
 
 
 workflow convert{
@@ -21,16 +21,16 @@ workflow convert{
 
     main:
     if(monitor) {
-	rawFiles = channel.watchPath("${raw_folder}/*.raw")
-	// When monitoring we should make sure that a file has
-	// finished writing before starting conversion
-	filesForConversion = waitForStableRaw(rawFiles)
+    rawFiles = channel.watchPath("${raw_folder}/*.raw")
+    // When monitoring we should make sure that a file has
+    // finished writing before starting conversion
+    filesForConversion = waitForStableRaw(rawFiles)
     }
     else {
-	rawFiles = channel.fromPath("${raw_folder}/*.raw")
-	filesForConversion = rawFiles
+    rawFiles = channel.fromPath("${raw_folder}/*.raw")
+    filesForConversion = rawFiles
     }
-    
+
     emit:
     raw_files = rawFiles
     conv_out = link_files ? convertThermoAndLink(filesForConversion, conv_params) : convertThermo(filesForConversion, conv_params)
@@ -45,12 +45,12 @@ workflow convertMzxmlW{
 
     main:
     if(link_files) {
-	out_ch = convertMzxmlAndLinkP(mzxml,
-			     conv_params_msconvert)
+    out_ch = convertMzxmlAndLinkP(mzxml,
+                 conv_params_msconvert)
     }
     else {
-	out_ch = convertMzxmlP(mzxml,
-		      conv_params_msconvert)
+    out_ch = convertMzxmlP(mzxml,
+              conv_params_msconvert)
     }
     emit:
     out = out_ch
